@@ -4,6 +4,18 @@
 # VPS服务器一键部署脚本 作者Mir
 # ==============================
 
+function handle_kernel_upgrade() {
+    echo "检测到内核升级完成，需要重启系统以加载新内核。"
+    read -p "是否现在重启系统？(y/n): " reboot_choice
+    if [[ "$reboot_choice" == "y" || "$reboot_choice" == "Y" ]]; then
+        echo "正在重启系统..."
+        sudo reboot
+    else
+        echo "请稍后手动重启以应用更改！"
+        read -p "按回车键返回主菜单..."
+    fi
+}
+
 while true; do
     clear
     echo "=============================="
@@ -22,6 +34,11 @@ while true; do
             echo "正在安装 Node.js 和 npm..."
             sudo apt update
             sudo DEBIAN_FRONTEND=noninteractive apt upgrade -y
+            # 检查是否需要重启（通过 /var/run/reboot-required 文件判断）
+            if [ -f /var/run/reboot-required ]; then
+                handle_kernel_upgrade
+                continue
+            fi
             curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
             sudo apt install -y nodejs
             echo "Node.js 和 npm 安装完成！"
