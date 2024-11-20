@@ -21,7 +21,7 @@ while true; do
         1)
             echo "正在安装 Node.js 和 npm..."
             sudo apt update
-            sudo apt upgrade -y
+            sudo DEBIAN_FRONTEND=noninteractive apt upgrade -y
             curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
             sudo apt install -y nodejs
             echo "Node.js 和 npm 安装完成！"
@@ -66,4 +66,3 @@ while true; do
             ;;
     esac
 done
-
