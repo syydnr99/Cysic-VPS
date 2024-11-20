@@ -25,9 +25,10 @@ while true; do
     echo "2. 配置 Cysic 验证器"
     echo "3. 启动验证器"
     echo "4. 查看日志"
-    echo "5. 退出脚本"
+    echo "5. 重启验证器"
+    echo "6. 退出脚本"
     echo "=============================="
-    read -p "请输入数字 (1-5)： " choice
+    read -p "请输入数字 (1-6)： " choice
 
     case $choice in
         1)
@@ -74,11 +75,17 @@ while true; do
             read -p "按回车键返回主菜单..."
             ;;
         5)
+            echo "正在重启验证器..."
+            pm2 restart cysic-verifier
+            echo "验证器已成功重启！"
+            read -p "按回车键返回主菜单..."
+            ;;
+        6)
             echo "退出脚本！再见！"
             exit 0
             ;;
         *)
-            echo "输入错误，请输入 1-5 的数字。"
+            echo "输入错误，请输入 1-6 的数字。"
             read -p "按回车键返回主菜单..."
             ;;
     esac
