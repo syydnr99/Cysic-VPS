@@ -19,8 +19,7 @@ Node.js 和 npm 仅需安装一次，多用户无需重复安装。
 验证器目录独立，多开时每个用户单独配置验证器。
 
 ## 1. 脚本运行
-使用步骤
-bash
+```bash
 复制代码
 bash <(curl -s https://raw.githubusercontent.com/syydnr99/Cysic-VPS-/main/deploy.sh)
 运行脚本后会显示主菜单，根据需要选择对应功能的数字。
