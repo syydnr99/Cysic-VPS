@@ -22,16 +22,16 @@
 脚本运行
 使用以下命令一键运行脚本：
 
-bash
+## bash
 复制代码
 bash <(curl -s https://raw.githubusercontent.com/syydnr99/Cysic-VPS-/main/deploy.sh)
 
-1. 必备操作（仅需执行一次）
+## 1. 必备操作（仅需执行一次）
 安装 Node.js 和 npm：
 在脚本主菜单中选择 1。
 系统将自动完成 Node.js、npm 和 PM2 的安装。
 安装完成后，建议按提示完成系统重启。
-2. 单开验证器操作
+## 2. 单开验证器操作
 配置验证器：
 在主菜单选择 2。
 按提示输入你的 EVM 地址，完成验证器配置。
@@ -39,7 +39,7 @@ bash <(curl -s https://raw.githubusercontent.com/syydnr99/Cysic-VPS-/main/deploy
 在主菜单选择 3，启动验证器。
 查看日志：
 在主菜单选择 4，查看验证器运行日志。
-3. 多开验证器操作
+## 3. 多开验证器操作
 新建用户：
 在主菜单选择 6。
 按提示输入用户名，完成新用户创建。
@@ -49,7 +49,7 @@ bash <(curl -s https://raw.githubusercontent.com/syydnr99/Cysic-VPS-/main/deploy
 配置和启动验证器：
 按照 单开验证器操作 的步骤，为新用户独立配置验证器。
 重复以上步骤，为其他用户单独配置和启动验证器。
-4. 其他辅助功能
+## 4. 其他辅助功能
 修改用户目录权限：
 在主菜单选择 8。
 按提示输入目录路径，完成权限设置（755 权限）。
