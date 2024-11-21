@@ -20,9 +20,7 @@
 
 快速使用指南
 脚本运行
-使用以下命令一键运行脚本：
-
-## bash
+## 使用以下命令一键运行脚本：
 复制代码
 bash <(curl -s https://raw.githubusercontent.com/syydnr99/Cysic-VPS-/main/deploy.sh)
 
