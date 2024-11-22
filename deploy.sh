@@ -47,18 +47,10 @@ function configure_verifier() {
         return
     fi
 
-    curl -L https://github.com/cysic-labs/phase2_libs/releases/download/v1.0.0/setup_linux.sh -o ~/setup_linux.sh
+    # 下载并运行验证器脚本
+    curl -L https://github.com/cysic-labs/phase2_libs/releases/download/v1.0.0/setup_linux.sh > ~/setup_linux.sh
     chmod +x ~/setup_linux.sh
-
-    # 自动化交互输入 EVM 地址
-    sudo apt install -y expect
-    expect <<EOF
-        set timeout -1
-        spawn bash ~/setup_linux.sh
-        expect "请输入 EVM 地址："
-        send "${evm_address}\r"
-        expect eof
-EOF
+    bash ~/setup_linux.sh "$evm_address"
 
     echo "验证器配置完成！"
 }
@@ -160,4 +152,4 @@ while true; do
         *) echo "无效选项，请输入 1-10 的数字。" ;;
     esac
     read -p "按回车键返回主菜单..."
-done         
+done
