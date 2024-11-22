@@ -47,10 +47,21 @@ function configure_verifier() {
         return
     fi
 
-    # 更新后的代码
-    curl -L https://github.com/cysic-labs/phase2_libs/releases/download/v1.0.0/setup_linux.sh > ~/setup_linux.sh && bash ~/setup_linux.sh
+    # 下载验证器脚本
+    curl -L https://github.com/cysic-labs/phase2_libs/releases/download/v1.0.0/setup_linux.sh -o ~/setup_linux.sh
 
-    echo "验证器配置完成！"
+    # 检查脚本是否下载完整
+    if [[ -s ~/setup_linux.sh ]]; then
+        chmod +x ~/setup_linux.sh
+        echo "验证器安装脚本已下载，开始执行安装..."
+
+        # 使用 EVM 地址运行脚本
+        bash ~/setup_linux.sh "$evm_address"
+
+        echo "验证器配置完成！"
+    else
+        echo "验证器安装脚本下载失败，请检查网络连接并重试。"
+    fi
 }
 
 # 功能3: 启动验证器
