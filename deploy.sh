@@ -77,7 +77,42 @@ function restart_verifier() {
     echo "验证器已重启！"
 }
 
-# 功能6: 创建新用户(多开环境)
+# 功能6: 停止验证器
+function stop_verifier() {
+    pm2 stop cysic-verifier
+    echo "验证器已停止！"
+}
+
+# 功能7: 更新最新文件
+function update_files() {
+    TARGET_DIR=~/cysic-verifier
+    if [[ ! -d "$TARGET_DIR" ]]; then
+        echo "目标目录 $TARGET_DIR 不存在！请检查路径。"
+        return
+    fi
+
+    TEMP_DIR=$(mktemp -d)
+    echo "临时目录创建成功：$TEMP_DIR"
+    echo "开始下载文件..."
+
+    wget --show-progress -O "$TEMP_DIR/libdarwin_verifier.so" https://github.com/cysic-labs/phase2_libs/releases/download/v1.0.0/libdarwin_verifier.so
+    wget --show-progress -O "$TEMP_DIR/verifier_linux" https://github.com/cysic-labs/phase2_libs/releases/download/v1.0.0/verifier_linux
+
+    if [[ ! -f "$TEMP_DIR/libdarwin_verifier.so" || ! -f "$TEMP_DIR/verifier_linux" ]]; then
+        echo "文件下载失败，请检查网络或路径！"
+        rm -rf "$TEMP_DIR"
+        return
+    fi
+
+    mv "$TEMP_DIR/libdarwin_verifier.so" "$TARGET_DIR/libdarwin_verifier.so"
+    mv "$TEMP_DIR/verifier_linux" "$TARGET_DIR/verifier"
+    chmod +x "$TARGET_DIR/verifier"
+    rm -rf "$TEMP_DIR"
+
+    echo "文件替换完成！目标文件已更新并设置权限。"
+}
+
+# 功能8: 创建新用户(多开环境)
 function create_user() {
     read -p "请输入新用户名: " new_user
     if id "$new_user" &>/dev/null; then
@@ -88,7 +123,7 @@ function create_user() {
     echo "用户 $new_user 创建成功！"
 }
 
-# 功能7: 切换用户
+# 功能9: 切换用户
 function switch_user() {
     read -p "请输入要切换的用户名: " user
     if id "$user" &>/dev/null; then
@@ -98,7 +133,7 @@ function switch_user() {
     fi
 }
 
-# 功能8: 修改目录权限
+# 功能10: 修改目录权限
 function modify_permissions() {
     read -p "请输入需要修改权限的用户目录 (如 /home/username): " dir
     if [[ -d "$dir" ]]; then
@@ -109,7 +144,7 @@ function modify_permissions() {
     fi
 }
 
-# 功能9: 添加用户到用户组
+# 功能11: 添加用户到用户组
 function add_user_to_groups() {
     read -p "请输入主用户名称: " main_user
     read -p "请输入要添加到主用户组的用户名（用空格分隔多个用户）: " users
@@ -130,13 +165,15 @@ while true; do
     echo "3. 启动验证器"
     echo "4. 查看验证器日志"
     echo "5. 重启验证器"
-    echo "6. 创建新用户"
-    echo "7. 切换用户"
-    echo "8. 修改用户目录权限"
-    echo "9. 添加用户到用户组"
-    echo "10. 退出脚本"
+    echo "6. 停止验证器"
+    echo "7. 更新最新文件"
+    echo "8. 创建新用户"
+    echo "9. 切换用户"
+    echo "10. 修改用户目录权限"
+    echo "11. 添加用户到用户组"
+    echo "12. 退出脚本"
     echo "=============================="
-    read -p "请输入选项 (1-10): " choice
+    read -p "请输入选项 (1-12): " choice
 
     case $choice in
         1) install_node ;;
@@ -144,12 +181,14 @@ while true; do
         3) start_verifier ;;
         4) view_logs ;;
         5) restart_verifier ;;
-        6) create_user ;;
-        7) switch_user ;;
-        8) modify_permissions ;;
-        9) add_user_to_groups ;;
-        10) echo "退出脚本，再见！"; exit 0 ;;
-        *) echo "无效选项，请输入 1-10 的数字。" ;;
+        6) stop_verifier ;;
+        7) update_files ;;
+        8) create_user ;;
+        9) switch_user ;;
+        10) modify_permissions ;;
+        11) add_user_to_groups ;;
+        12) echo "退出脚本，再见！"; exit 0 ;;
+        *) echo "无效选项，请输入 1-12 的数字。" ;;
     esac
     read -p "按回车键返回主菜单..."
 done
